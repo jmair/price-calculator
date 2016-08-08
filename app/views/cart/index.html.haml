@@ -1,0 +1,48 @@
+.container
+  %header
+    %span Welcome to
+    %h1 Rails Mart
+    %h3 Shopping Cart
+  = form_tag('/', method: 'post') do
+    #sale_items.col-sm-12
+      .row
+        - @sale_items.each do |item|
+          .card
+            .card-block
+              %h4.card-title ON SALE!
+              .card-text
+                = "#{item.name} #{item.sale_quantity} for #{number_to_currency(item.sale_price)}"
+    #items.col-sm-12
+      .row
+        #numeric.col-sm-6
+          %table.table
+            - @products.each do |product|
+              %tr
+                %td.item
+                  = image_tag "#{product[:name]}.png"
+                  = "#{product[:name]} #{number_to_currency(product[:unit_price])}"
+                %td.quantity
+                  = number_field_tag("quantity[#{product[:name]}]",
+                                       params[:quantity].nil? ? 0 : params[:quantity][product[:name]])
+                %td.update
+                  %i.glyphicon.glyphicon-plus{ :data => { :target => "quantity_#{product[:name]}" } }
+                  %i.glyphicon.glyphicon-minus{ :data => { :target => "quantity_#{product[:name]}" } }
+        #list.col-sm-6
+          .row
+            Item List:
+            = text_field_tag('item_list', params[:item_list].nil? ? '' : params[:item_list])
+            %span (You can also supply items above, separated by commas e.g. "bread, milk, bread, apple" and they will also be added to the cart.)
+    #totals.col-sm-12
+      .row
+        .col-sm-3.col-sm-push-9
+          .row
+            %p
+              Total:
+              = number_to_currency(@sale_applied_total) || '$0.00'
+            %p
+              You Saved:
+              = number_to_currency(@savings) || '$0.00'
+            = submit_tag('CALCULATE TOTAL')
+    %footer.col-sm-12
+      .row
+        Rails Mart 2016 &copy;
