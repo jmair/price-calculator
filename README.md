@@ -1,11 +1,11 @@
 # PRICE CALCULATOR
-
+***
 * Database
-  SQLite
+  - SQLite
 
 * Database initialization
-  rake db:migrate
+  - rake db:migrate
 
 * How to run the test suite
-  bundle exec rspec
+  - bundle exec rspec
 
